@@ -35,4 +35,8 @@
     <Resource Include="Assets\space_background.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Fonts\" />
+  </ItemGroup>
+
 </Project>

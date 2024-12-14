@@ -18,12 +18,12 @@
 
     <Window.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Padding" Value="20,13"/>
             <Setter Property="Margin" Value="20"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontWeight" Value="DemiBold"/>
-            <Setter Property="BorderThickness" Value="2.5"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="eurofighter"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background">
@@ -62,7 +62,7 @@
             <Polygon Points="0,0 700,0 0,700">
                 <Polygon.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0.5, 0.5" Opacity="0.15">
-                        <GradientStop Color="#f64f59" Offset="0.25"/>
+                        <GradientStop Color="#f64f59" Offset="0.2"/>
                         <GradientStop Color="#8E54E9" Offset="1"/>
                     </LinearGradientBrush>
                 </Polygon.Fill>
@@ -70,7 +70,7 @@
             <Polygon Points="700,700 700,0 0,700">
                 <Polygon.Fill>
                     <LinearGradientBrush EndPoint="0.5,0.5" StartPoint="1, 1" Opacity="0.15">
-                        <GradientStop Color="#99fffd" Offset="0.25"/>
+                        <GradientStop Color="#99fffd" Offset="0.2"/>
                         <GradientStop Color="#8E54E9" Offset="1"/>
                     </LinearGradientBrush>
                 </Polygon.Fill>
@@ -107,9 +107,9 @@
 
         <StackPanel x:Name="Menu" HorizontalAlignment="Center" VerticalAlignment="Center"
                     Margin="0,200,0,0">
-            <Button Style ="{StaticResource ButtonStyle}" Content="Start"/>
-            <Button Style ="{StaticResource ButtonStyle}" Content="Scoreboard"/>
-            <Button Style ="{StaticResource ButtonStyle}" Content="Exit"/>
+            <Button Style ="{StaticResource ButtonStyle}" Content="START"/>
+            <Button Style ="{StaticResource ButtonStyle}" Content="SCOREBOARD"/>
+            <Button Style ="{StaticResource ButtonStyle}" Content="EXiT"/>
         </StackPanel>
 
 
