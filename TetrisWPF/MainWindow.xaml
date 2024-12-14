@@ -10,59 +10,92 @@
         Foreground="Wheat"
         FontSize="34"
         KeyDown="Window_KeyDown">
+<!--
+    <Window.Background>
+        <LinearGradientBrush>
+            <GradientStop Color="#000000" Offset="0"/>
+            <GradientStop Color="#434343" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+=-->
+    <!--
+    <Window.Background>
+        <SolidColorBrush
+            Color="#1e3c72"/>
+    </Window.Background>
+    -->
 
     <Window.Background>
-        <SolidColorBrush 
-            Color="#8E54E9">
-        </SolidColorBrush>
+        <ImageBrush ImageSource="Assets/background2.png" Opacity="1"/>
     </Window.Background>
-
     <Grid>
 
-        <Ellipse HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="950" Width="300" Margin="0,0,0,-475">
-            <Ellipse.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="#4776E6" Offset="0.3"/>
-                    <GradientStop Color="#8E54E9" Offset="1"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-        </Ellipse>
-        <Ellipse HorizontalAlignment="Center" VerticalAlignment="Top" Height = "700" Width="800" Margin="0,-560,0,0">
-            <Ellipse.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="#f64f59" Offset="0.12"/>
-                    <GradientStop Color="#8E54E9" Offset="1"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-        </Ellipse>
-        <Ellipse HorizontalAlignment="Left" VerticalAlignment="Center" Height = "300" Width="300" Margin="-100,0,0,250">
-            <Ellipse.Fill>
-                <LinearGradientBrush>
-                    <GradientStop Color="#f7ff00" Offset="1.13"/>
-                    <GradientStop Color="#8E54E9" Offset="0"/>
-                </LinearGradientBrush>
-            </Ellipse.Fill>
-        </Ellipse>
-        <Ellipse HorizontalAlignment="Right" VerticalAlignment="Bottom" Height = "350" Width="350" Margin="0,0,-170,-80">
-            <Ellipse.Fill>
-                <LinearGradientBrush>
-                    <GradientStop Color="#59C173" Offset="0.15"/>
-                    <GradientStop Color="#8E54E9" Offset="1"/>
-                </LinearGradientBrush>
-            </Ellipse.Fill>
-        </Ellipse>
-        <Image Source="Assets/logo.png"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Canvas>
+            <Ellipse Canvas.Left="-90" Canvas.Top="60" Height = "300" Width="300">
+                <Ellipse.Fill>
+                    <LinearGradientBrush Opacity="0.5">
+                        <GradientStop Color="#f64f59" Offset="1.13"/>
+                        <GradientStop Color="#8E54E9" Offset="0"/>
+                    </LinearGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <Ellipse Canvas.Right="-180" Canvas.Top="400" Height = "350" Width="350">
+                <Ellipse.Fill>
+                    <LinearGradientBrush Opacity="0.5">
+                        <GradientStop Color="#99fffd" Offset="0.15"/>
+                        <GradientStop Color="#8E54E9" Offset="1"/>
+                    </LinearGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <Ellipse Canvas.Left="200" Canvas.Top="150" Height="1100" Width="300">
+                <Ellipse.Fill>
+                    <RadialGradientBrush Opacity="0.5">
+                        <GradientStop Color="#4776E6" Offset="0.3"/>
+                        <GradientStop Color="#111111" Offset="1"/>
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Canvas>
+
+        <StackPanel x:Name="Menu">
+            <Image Source="Assets/logo2.png"
                HorizontalAlignment="Center"
                VerticalAlignment="Top"
                Width="200"
                Height="200"
-               Panel.ZIndex="1">
-        </Image>
+               Margin="0,20,0,0"
+               Grid.Row="0">
+            </Image>
+        </StackPanel>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
+
+        <!--
+        <Ellipse HorizontalAlignment="Center" VerticalAlignment="Top" Height = "700" Width="800" Margin="0,-560,0,0">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#ff00cc" Offset="0.12"/>
+                    <GradientStop Color="#8E54E9" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        -->
+
         
+        <!--<Ellipse HorizontalAlignment="Center" VerticalAlignment="Top" Height = "50" Width="250" Margin="0,120,0,0">
+            <Ellipse.Fill>
+                <LinearGradientBrush>
+                    <GradientStop Color="Black" Offset="0.15"/>
+                    <GradientStop Color="#8E54E9" Offset="1"/>
+                </LinearGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        -->
+
     </Grid>
 </Window>

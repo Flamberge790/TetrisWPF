@@ -19,4 +19,18 @@
     <Page Remove="Models\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\background.png" />
+    <None Remove="Assets\background2.png" />
+    <None Remove="Assets\logo.png" />
+    <None Remove="Assets\logo2.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\background.png" />
+    <Resource Include="Assets\background2.png" />
+    <Resource Include="Assets\logo.png" />
+    <Resource Include="Assets\logo2.png" />
+  </ItemGroup>
+
 </Project>
