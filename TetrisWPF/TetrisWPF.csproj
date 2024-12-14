@@ -24,6 +24,7 @@
     <None Remove="Assets\background2.png" />
     <None Remove="Assets\logo.png" />
     <None Remove="Assets\logo2.png" />
+    <None Remove="Assets\space_background.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,7 @@
     <Resource Include="Assets\background2.png" />
     <Resource Include="Assets\logo.png" />
     <Resource Include="Assets\logo2.png" />
+    <Resource Include="Assets\space_background.png" />
   </ItemGroup>
 
 </Project>

@@ -10,31 +10,38 @@
         Foreground="Wheat"
         FontSize="34"
         KeyDown="Window_KeyDown">
-<!--
-    <Window.Background>
-        <LinearGradientBrush>
-            <GradientStop Color="#000000" Offset="0"/>
-            <GradientStop Color="#434343" Offset="1"/>
-        </LinearGradientBrush>
-    </Window.Background>
-=-->
-    <!--
-    <Window.Background>
-        <SolidColorBrush
-            Color="#1e3c72"/>
-    </Window.Background>
-    -->
 
     <Window.Background>
-        <ImageBrush ImageSource="Assets/background2.png" Opacity="1"/>
+        <ImageBrush ImageSource="Assets/space_background.png" Opacity="1"/>
     </Window.Background>
+
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="BorderThickness" Value="2.5"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Transparent">
+                    </SolidColorBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" Direction="315" ShadowDepth="3" BlurRadius="10"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <Canvas>
+        <Canvas Width="700" Height="700">
             <Ellipse Canvas.Left="-90" Canvas.Top="60" Height = "300" Width="300">
                 <Ellipse.Fill>
                     <LinearGradientBrush Opacity="0.5">
@@ -63,15 +70,11 @@
             </Ellipse>
         </Canvas>
 
-        <StackPanel x:Name="Menu">
-            <Image Source="Assets/logo2.png"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Top"
-               Width="200"
-               Height="200"
-               Margin="0,20,0,0"
-               Grid.Row="0">
-            </Image>
+        <StackPanel x:Name="Menu" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Margin="0,250,0,0">
+            <Button Style ="{StaticResource ButtonStyle}" Content="Start"/>
+            <Button Style ="{StaticResource ButtonStyle}" Content="Scoreboard"/>
+            <Button Style ="{StaticResource ButtonStyle}" Content="Exit"/>
         </StackPanel>
 
 
@@ -97,5 +100,14 @@
         </Ellipse>
         -->
 
+
+        <Image Source="Assets/logo2.png"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Top"
+               Width="200"
+               Height="200"
+               Margin="0,30,0,0"
+               Grid.Row="0">
+        </Image>
     </Grid>
 </Window>
