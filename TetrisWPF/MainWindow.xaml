@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:TetrisWPF"
         mc:Ignorable="d"
         Title="MainMenu" Height="700" Width="700"
+        MaxHeight="700" MaxWidth="700"
 
         Foreground="Wheat"
         FontSize="34"
@@ -18,7 +19,7 @@
     <Window.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="Padding" Value="20,10"/>
-            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Margin" Value="20"/>
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
@@ -36,13 +37,45 @@
                     <DropShadowEffect Color="Black" Direction="315" ShadowDepth="3" BlurRadius="10"/>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                            CornerRadius="20"
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" 
+                                Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
     <Grid>
 
         <Canvas Width="700" Height="700">
-            <Ellipse Canvas.Left="-90" Canvas.Top="60" Height = "300" Width="300">
+            <Polygon Points="0,0 700,0 0,700">
+                <Polygon.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0.5, 0.5" Opacity="0.15">
+                        <GradientStop Color="#f64f59" Offset="0.25"/>
+                        <GradientStop Color="#8E54E9" Offset="1"/>
+                    </LinearGradientBrush>
+                </Polygon.Fill>
+            </Polygon>
+            <Polygon Points="700,700 700,0 0,700">
+                <Polygon.Fill>
+                    <LinearGradientBrush EndPoint="0.5,0.5" StartPoint="1, 1" Opacity="0.15">
+                        <GradientStop Color="#99fffd" Offset="0.25"/>
+                        <GradientStop Color="#8E54E9" Offset="1"/>
+                    </LinearGradientBrush>
+                </Polygon.Fill>
+            </Polygon>
+            <Ellipse Canvas.Left="-90" Canvas.Top="-30" Height = "300" Width="300">
                 <Ellipse.Fill>
                     <LinearGradientBrush Opacity="0.5">
                         <GradientStop Color="#f64f59" Offset="1.13"/>
@@ -60,18 +93,20 @@
                 </Ellipse.Fill>
             </Ellipse>
 
+            <!--
             <Ellipse Canvas.Left="200" Canvas.Top="150" Height="1100" Width="300">
                 <Ellipse.Fill>
-                    <RadialGradientBrush Opacity="0.5">
+                    <RadialGradientBrush Opacity="0.75">
                         <GradientStop Color="#4776E6" Offset="0.3"/>
-                        <GradientStop Color="#111111" Offset="1"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
+            -->
         </Canvas>
 
         <StackPanel x:Name="Menu" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Margin="0,250,0,0">
+                    Margin="0,200,0,0">
             <Button Style ="{StaticResource ButtonStyle}" Content="Start"/>
             <Button Style ="{StaticResource ButtonStyle}" Content="Scoreboard"/>
             <Button Style ="{StaticResource ButtonStyle}" Content="Exit"/>
