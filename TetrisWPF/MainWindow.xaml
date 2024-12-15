@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:TetrisWPF"
         mc:Ignorable="d"
         Title="Background" Height="700" Width="800">
-    <!--MaxHeight="700" MaxWidth="800"-->
 
     <Window.Background>
         <ImageBrush ImageSource="Assets/space_background.png" Opacity="1"/>
@@ -14,7 +13,6 @@
 
     <Window.Resources>
         <local:PolygonPointConverter x:Key="PolygonPointConverter" />
-        <local:PolygonPointConverter2 x:Key="PolygonPointConverter2" />
     </Window.Resources>
 
     <Grid>
@@ -22,28 +20,14 @@
             
             <Polygon>
                 <Polygon.Fill>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0.5, 0.5" Opacity="0.15">
-                        <GradientStop Color="#f64f59" Offset="0.2"/>
-                        <GradientStop Color="#8E54E9" Offset="1"/>
+                    <LinearGradientBrush StartPoint="0, 0" EndPoint="1,1" Opacity="0.15">
+                        <GradientStop Color="#f64f59" Offset="0"/>
+                        <GradientStop Color="#8E54E9" Offset="0.5"/>
+                        <GradientStop Color="#99fffd" Offset="1"/>
                     </LinearGradientBrush>
                 </Polygon.Fill>
                 <Polygon.Points>
                     <MultiBinding Converter="{StaticResource PolygonPointConverter}">
-                        <Binding ElementName="MainCanvas" Path="ActualWidth" />
-                        <Binding ElementName="MainCanvas" Path="ActualHeight" />
-                    </MultiBinding>
-                </Polygon.Points>
-            </Polygon>
-            
-            <Polygon>
-                <Polygon.Fill>
-                    <LinearGradientBrush EndPoint="0.5,0.5" StartPoint="1, 1" Opacity="0.15">
-                        <GradientStop Color="#99fffd" Offset="0.2"/>
-                        <GradientStop Color="#8E54E9" Offset="1"/>
-                    </LinearGradientBrush>
-                </Polygon.Fill>
-                <Polygon.Points>
-                    <MultiBinding Converter="{StaticResource PolygonPointConverter2}">
                         <Binding ElementName="MainCanvas" Path="ActualWidth" />
                         <Binding ElementName="MainCanvas" Path="ActualHeight" />
                     </MultiBinding>

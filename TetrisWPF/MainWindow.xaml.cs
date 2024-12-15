@@ -48,7 +48,7 @@ namespace TetrisWPF
                     return null;
                 }
 
-            return new PointCollection([new Point(0, 0), new Point(width, 0), new Point(0, height)]);
+            return new PointCollection([new Point(width, height), new Point(0, height), new Point(0, 0), new Point(width, 0)]);
             }
 
             public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -57,24 +57,4 @@ namespace TetrisWPF
             }
         }
 
-    public class PolygonPointConverter2 : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values.Length != 2 ||
-                !double.TryParse(values[0]?.ToString(), out double width) ||
-                !double.TryParse(values[1]?.ToString(), out double height))
-            {
-                return null;
-            }
-
-
-            return new PointCollection([new Point(width, height), new Point(width, 0), new Point(0, height)]);
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }
