@@ -5,7 +5,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Padding" Value="20,13"/>
+            <Setter Property="Padding" Value="24,14"/>
             <Setter Property="Margin" Value="20"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="FontFamily" Value="eurofighter"/>

@@ -52,7 +52,8 @@
             </StackPanel>
         </Viewbox>
 
-            <Viewbox MaxWidth="150" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
+
+        <Viewbox MaxWidth="150" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
                 <TextBlock x:Name="ScoreText"
                     Foreground="White"
                     FontFamily="eurofighter"

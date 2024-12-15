@@ -59,6 +59,7 @@
            HorizontalAlignment="Stretch"
            VerticalAlignment="Stretch"
         />
+
     </Grid>
 </Window>
 

@@ -6,11 +6,62 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="800"
       Title="Scoreboard">
-    <Grid Background="Black">
-        <TextBlock Text="skibidi wyniki tu"
-                   Foreground="White" 
-                   FontSize="36" 
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.2*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="1.8*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Viewbox Grid.Row="0" Grid.Column="1"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center" 
+        Margin="15,15,15,15">
+            <TextBlock 
+        Text="SCOREBOARD"
+        Foreground="White"
+        FontSize="36"
+        FontFamily="eurofighter"
+        FontWeight="Bold"
+        />
+        </Viewbox>
+
+        <Viewbox Grid.Row="1" Grid.Column="1"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center" 
+        Margin="15,15,15,15"
+        Stretch="Fill">
+            <StackPanel 
+                x:Name="ScoreList"
+                Height="300"
+                Width="300"
+                Orientation="Vertical"
+                Margin="0,10,0,10"
+                >
+            </StackPanel>
+        </Viewbox>
+
+        <Border Grid.Row="1" Grid.Column="1"
+        Opacity="0.15"
+        Background="Black" 
+        BorderBrush="White" 
+        BorderThickness="2" 
+        CornerRadius="15" 
+        Margin="15,15,15,15">
+        </Border>
+
+        <Viewbox Grid.Row="2" Grid.Column="1"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center" 
+        Margin="15,15,15,15">
+            <Button Style="{StaticResource ButtonStyle}" Content="RETURN" Click="ReturnToMenu_Click"/>
+        </Viewbox>
+
     </Grid>
 </Page>
