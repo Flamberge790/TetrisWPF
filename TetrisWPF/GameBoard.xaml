@@ -12,53 +12,74 @@
       Focusable="True">
 
     <Grid>
+        <!--
         <Border BorderBrush="White" BorderThickness="2" CornerRadius="20"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 Padding="20"
                 Background="#121212">
+        </Border>
+-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-                <Canvas x:Name="GameCanvas"
-                        Width="200"
-                        Height="500"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Focusable="False"
-                        Grid.Column="0">
-                </Canvas>
+        <Viewbox Grid.Column="0" Grid.RowSpan="3">
+            <Canvas x:Name="GameCanvas"
+                Background="Black"
+                Width="250"
+                Height="500"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="60,0,0,0"
+                Focusable="False"
+                ClipToBounds="True"
+                Loaded="GameBoard_Loaded">
+            </Canvas>
+        </Viewbox>
 
-                <!-- next piece -->
-                <StackPanel x:Name="NextPiecesPanel"
-                            Orientation="Vertical"
-                            Margin="20,0,0,0"
-                            Grid.Column="1" />
+        <Viewbox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <StackPanel x:Name="NextPiecesPanel"
+                Orientation="Vertical"
+                Margin="15,20,15,15"
+                >
+            </StackPanel>
+        </Viewbox>
+
+            <Viewbox MaxWidth="150" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
+                <TextBlock x:Name="ScoreText"
+                    Foreground="White"
+                    FontFamily="eurofighter"
+                    Margin="15,15,15,15"
+                    />
+            </Viewbox>
+
+
+
+
+
+            <!-- next piece -->
+
 
                 <!-- score -->
-                <TextBlock x:Name="ScoreText"
-                           Foreground="White"
-                           FontSize="24"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Top"
-                           Text="Score: 0"
-                           Margin="0,-59,0,0"
-                           Grid.ColumnSpan="2"/>
+
 
                 <!-- game over (do zmienienia, zrobi sie ladny i zaladuje) -->
-                <TextBlock x:Name="GameOverText"
+            <TextBlock x:Name="GameOverText"
                            Foreground="Red"
                            FontSize="36"
+                           FontFamily="eurofighter"
                            FontWeight="Bold"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Visibility="Collapsed"
                            Text="GAME OVER!"
                            Grid.ColumnSpan="2"/>
-            </Grid>
-        </Border>
     </Grid>
 </Page>

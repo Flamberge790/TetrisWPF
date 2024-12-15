@@ -10,7 +10,7 @@ namespace TetrisWPF
 {
     public partial class GameBoard : Page
     {
-        private const int CellSize = 20;
+        private const int CellSize = 25;
         private DispatcherTimer gameTimer;
 
         public GameBoard()
@@ -88,7 +88,7 @@ namespace TetrisWPF
                 }
             }
 
-            ScoreText.Text = $"Score: {TetrisModel.score}";
+            ScoreText.Text = $"SCORE: {TetrisModel.score}";
 
             ShowUpcomingPieces();
         }
@@ -99,10 +99,11 @@ namespace TetrisWPF
 
             TextBlock nextLabel = new TextBlock
             {
-                Text = "Next:",
+                Text = "NEXT:",
                 FontSize = 20,
+                FontFamily = new FontFamily("eurofighter"),
                 Foreground = Brushes.White,
-                Margin = new Thickness(0, 0, 0, 10)
+                Margin = new Thickness(20, 0, 0, 25)
             };
             NextPiecesPanel.Children.Add(nextLabel);
 
@@ -115,9 +116,9 @@ namespace TetrisWPF
 
                 Canvas previewCanvas = new Canvas
                 {
-                    Width = dim * (CellSize / 2),
-                    Height = dim * (CellSize / 2),
-                    Margin = new Thickness(0, 0, 0, 10)
+                    Width = dim * (CellSize),
+                    Height = dim * (CellSize),
+                    Margin = new Thickness(0, 0, 0, 25)
                 };
 
                 for (int py = 0; py < dim; py++)
@@ -128,14 +129,14 @@ namespace TetrisWPF
                         {
                             Rectangle cell = new Rectangle
                             {
-                                Width = CellSize / 2,
-                                Height = CellSize / 2,
+                                Width = CellSize,
+                                Height = CellSize,
                                 Fill = Brushes.Yellow,
                                 Stroke = Brushes.Gray,
                                 StrokeThickness = 0.5
                             };
-                            Canvas.SetLeft(cell, px * (CellSize / 2));
-                            Canvas.SetTop(cell, py * (CellSize / 2));
+                            Canvas.SetLeft(cell, px * (CellSize));
+                            Canvas.SetTop(cell, py * (CellSize));
                             previewCanvas.Children.Add(cell);
                         }
                     }
