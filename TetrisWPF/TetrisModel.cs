@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace TetrisWPF
 {
     public class TetrisModel
     {
-        //block
+        // block
         private static object syncObject = new object();
         public static int pieceYinit = 22;
         public static int pieceNo = 4;
@@ -21,60 +20,75 @@ namespace TetrisWPF
         public static int[] currentBag = new int[] { 0, 1, 2, 3, 4, 5, 6 };
         public static List<int> upcomingPieces = new List<int>();
 
-        //gamestate
+        // gamestate
         public static Random rnd = new Random();
-        static Timer timer;
+        static DispatcherTimer timer;    // Zmiana: użycie DispatcherTimer dla WPF
         static int dropInterval = 1000;
         public static bool gameEnded = false;
         public static bool keyPressedRecently = false;
 
-        //gameboard
+        // gameboard
         public static int wellWidth = 10;
         public static int wellHeight = 25;
         public static int[,] well = new int[wellHeight, wellWidth];
 
-        //player
+        // player
         public static string playerName = "";
         public static int score = 0;
 
         public static readonly List<int[,,]> pieces = new List<int[,,]> {
-            new int[,,] {{ {0,0,0,0}, {1,1,1,1}, {0,0,0,0}, {0,0,0,0} },
-                         { {0,0,1,0}, {0,0,1,0}, {0,0,1,0}, {0,0,1,0} },
-                         { {0,0,0,0}, {0,0,0,0}, {1,1,1,1}, {0,0,0,0} },
-                         { {0,1,0,0}, {0,1,0,0}, {0,1,0,0}, {0,1,0,0} }},
-
-            new int[,,] {{ {1,0,0}, { 1,1,1}, { 0,0,0} },
-                         { { 0,1,1}, { 0,1,0}, { 0,1,0} },
-                         { { 0,0,0}, { 1,1,1}, { 0,0,1} },
-                         { { 0,1,0}, { 0,1,0}, { 1,1,0} }},
-
-            new int[,,] {{ {0,0,1}, {1,1,1}, {0,0,0} },
-                         { {0,1,0}, {0,1,0}, {0,1,1} },
-                         { {0,0,0}, {1,1,1}, {1,0,0} },
-                         { {1,1,0}, {0,1,0}, {0,1,0} }},
-
-            new int[,,] { { { 1, 1 }, { 1, 1 } } },
-
-            new int[,,] {{ {0,1,1}, {1,1,0}, {0,0,0} },
-                         { {0,1,0}, {0,1,1}, {0,0,1} },
-                         { {0,0,0}, {0,1,1}, {1,1,0} },
-                         { {1,0,0}, {1,1,0}, {0,1,0} }},
-
-            new int[,,] {{ {0,1,0}, {1,1,1}, {0,0,0} },
-                         { {0,1,0}, {0,1,1}, {0,1,0} },
-                         { {0,0,0}, {1,1,1}, {0,1,0} },
-                         { {0,1,0}, {1,1,0}, {0,1,0} }},
-
-            new int[,,] {{ {1,1,0}, {0,1,1}, {0,0,0} },
-                         { {0,0,1}, {0,1,1}, {0,1,0} },
-                         { {0,0,0}, {1,1,0}, {0,1,1} },
-                         { {1,0,0}, {1,1,0}, {0,1,0} }}
+            // I
+            new int[,,] {
+                { {0,0,0,0}, {1,1,1,1}, {0,0,0,0}, {0,0,0,0} },
+                { {0,0,1,0}, {0,0,1,0}, {0,0,1,0}, {0,0,1,0} },
+                { {0,0,0,0}, {0,0,0,0}, {1,1,1,1}, {0,0,0,0} },
+                { {0,1,0,0}, {0,1,0,0}, {0,1,0,0}, {0,1,0,0} }
+            },
+            // J
+            new int[,,] {
+                { {1,0,0}, {1,1,1}, {0,0,0} },
+                { {0,1,1}, {0,1,0}, {0,1,0} },
+                { {0,0,0}, {1,1,1}, {0,0,1} },
+                { {0,1,0}, {0,1,0}, {1,1,0} }
+            },
+            // L
+            new int[,,] {
+                { {0,0,1}, {1,1,1}, {0,0,0} },
+                { {0,1,0}, {0,1,0}, {0,1,1} },
+                { {0,0,0}, {1,1,1}, {1,0,0} },
+                { {1,1,0}, {0,1,0}, {0,1,0} }
+            },
+            // O
+            new int[,,] {
+                { {1,1}, {1,1} }
+            },
+            // S
+            new int[,,] {
+                { {0,1,1}, {1,1,0}, {0,0,0} },
+                { {0,1,0}, {0,1,1}, {0,0,1} },
+                { {0,0,0}, {0,1,1}, {1,1,0} },
+                { {1,0,0}, {1,1,0}, {0,1,0} }
+            },
+            // T
+            new int[,,] {
+                { {0,1,0}, {1,1,1}, {0,0,0} },
+                { {0,1,0}, {0,1,1}, {0,1,0} },
+                { {0,0,0}, {1,1,1}, {0,1,0} },
+                { {0,1,0}, {1,1,0}, {0,1,0} }
+            },
+            // Z
+            new int[,,] {
+                { {1,1,0}, {0,1,1}, {0,0,0} },
+                { {0,0,1}, {0,1,1}, {0,1,0} },
+                { {0,0,0}, {1,1,0}, {0,1,1} },
+                { {1,0,0}, {1,1,0}, {0,1,0} }
+            }
         };
 
         private static void DropPiece()
         {
             var y = 0;
-            while (false == CollisionDetected(pieceRotate, pieceX, pieceY - y))
+            while (!CollisionDetected(pieceRotate, pieceX, pieceY - y))
             {
                 y++;
             }
@@ -86,7 +100,7 @@ namespace TetrisWPF
         private static void FreezePiece()
         {
             var currentPiece = pieces[pieceNo];
-            var dim = currentPiece.GetLength(1); // always square
+            var dim = currentPiece.GetLength(1);
 
             for (var y = dim - 1; y >= 0; y--)
             {
@@ -100,88 +114,78 @@ namespace TetrisWPF
                     {
                         gameEnded = true;
                     }
-
                 }
-            }
-
-            int startX = 50; // Adjust start position if necessary
-            int startY = 13; // Adjust starting y-position if necessary
-            for (int i = 0; i < 5 * 4; i++) // Clears an area big enough for 5 blocks with spacing
-            {
-                Console.SetCursorPosition(startX, startY + i);
-                Console.Write("          "); // Clear line
             }
 
             CompactWell();
             RandomizePiece();
-
         }
 
-        public static void HandleKey(ConsoleKey key)
+        public static void HandleKey(Key key)
         {
             lock (syncObject)
             {
+                if (gameEnded) return;
                 switch (key)
                 {
-                    case ConsoleKey.LeftArrow:
-                        if (false == CollisionDetected(pieceRotate, pieceX - 1, pieceY))
+                    case Key.Left:
+                        if (!CollisionDetected(pieceRotate, pieceX - 1, pieceY))
                         {
                             pieceX--;
                         }
                         break;
-                    case ConsoleKey.RightArrow:
-                        if (false == CollisionDetected(pieceRotate, pieceX + 1, pieceY))
+                    case Key.Right:
+                        if (!CollisionDetected(pieceRotate, pieceX + 1, pieceY))
                         {
                             pieceX++;
                         }
                         break;
-                    case ConsoleKey.DownArrow:
-                        if (false == CollisionDetected(pieceRotate, pieceX, pieceY - 1))
+                    case Key.Down:
+                        if (!CollisionDetected(pieceRotate, pieceX, pieceY - 1))
                         {
                             pieceY--;
                         }
                         else
                         {
                             FreezePiece();
-
                         }
-
                         break;
-                    case ConsoleKey.UpArrow:
-                        if (false == CollisionDetected((pieceRotate + 1) % pieces[pieceNo].GetLength(0), pieceX, pieceY))
+                    case Key.Up:
+                        if (!CollisionDetected((pieceRotate + 1) % pieces[pieceNo].GetLength(0), pieceX, pieceY))
                         {
                             pieceRotate = (pieceRotate + 1) % pieces[pieceNo].GetLength(0);
                         }
-                        else if (false == CollisionDetected((pieceRotate + 1) % pieces[pieceNo].GetLength(0), pieceX - 1, pieceY))
+                        else if (!CollisionDetected((pieceRotate + 1) % pieces[pieceNo].GetLength(0), pieceX - 1, pieceY))
                         {
                             pieceX -= 1;
                             pieceRotate = (pieceRotate + 1) % pieces[pieceNo].GetLength(0);
                         }
-                        else if (false == CollisionDetected((pieceRotate + 1) % pieces[pieceNo].GetLength(0), pieceX + 1, pieceY))
+                        else if (!CollisionDetected((pieceRotate + 1) % pieces[pieceNo].GetLength(0), pieceX + 1, pieceY))
                         {
                             pieceX += 1;
                             pieceRotate = (pieceRotate + 1) % pieces[pieceNo].GetLength(0);
                         }
-                        else if (false == CollisionDetected((pieceRotate + 1) % pieces[pieceNo].GetLength(0), pieceX - 2, pieceY))
+                        else if (!CollisionDetected((pieceRotate + 1) % pieces[pieceNo].GetLength(0), pieceX - 2, pieceY))
                         {
                             pieceX -= 2;
                             pieceRotate = (pieceRotate + 1) % pieces[pieceNo].GetLength(0);
-
                         }
-                        else if (false == CollisionDetected((pieceRotate + 1) % pieces[pieceNo].GetLength(0), pieceX + 2, pieceY))
+                        else if (!CollisionDetected((pieceRotate + 1) % pieces[pieceNo].GetLength(0), pieceX + 2, pieceY))
                         {
                             pieceX += 2;
                             pieceRotate = (pieceRotate + 1) % pieces[pieceNo].GetLength(0);
                         }
-
                         break;
-                    case ConsoleKey.Spacebar:
+                    case Key.Space:
                         DropPiece();
                         break;
-                    case ConsoleKey.Escape:
-                        Environment.Exit(0);
+                    case Key.Escape:
+                        // koniec gierki
+                        gameEnded = true;
                         break;
                 }
+
+                keyPressedRecently = true;
             }
         }
 
@@ -192,7 +196,6 @@ namespace TetrisWPF
             pieceX = pieceNo == 3 ? 4 : 3;
             pieceY = pieceYinit;
 
-            // Remove used piece and add a new one to the upcoming list
             upcomingPieces.RemoveAt(0);
             AddNextPieceToUpcoming();
         }
@@ -223,51 +226,56 @@ namespace TetrisWPF
             {
                 AddNextPieceToUpcoming();
             }
+
+            ResetBoard();
+            gameEnded = false;
+            keyPressedRecently = false;
         }
 
-        public static void StartNewGame()
+        public static void StartNewGame(string player)
         {
-            Console.Clear();
-            Console.WriteLine("Podaj swoją nazwę: ");
-            playerName = Console.ReadLine();
+            playerName = player;
             Init();
-            MainLoop();
+            StartTimer();
         }
 
-        private static void Tick(object state)
+        private static void Tick(object sender, EventArgs e)
         {
-            if (false == gameEnded && false == keyPressedRecently)
+            if (!gameEnded && !keyPressedRecently)
             {
-                HandleKey(ConsoleKey.DownArrow);
+                HandleKey(Key.Down);
             }
 
             keyPressedRecently = false;
         }
 
-        public static void MainLoop()
+        public static void StartTimer()
         {
-            Console.Clear();
-            timer = new Timer(Tick, null, 0, dropInterval);
+            if (timer != null)
+            {
+                timer.Stop();
+                timer = null;
+            }
 
-            while (!gameEnded)
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(dropInterval);
+            timer.Tick += Tick;
+            timer.Start();
+        }
+
+        public static void StopGame()
+        {
+            if (timer != null)
             {
-                var key = Console.ReadKey();
-                keyPressedRecently = true;
-                HandleKey(key.Key);
+                timer.Stop();
+                timer = null;
             }
-            ResetGameState();
-            if (Console.ReadKey().Key == ConsoleKey.Enter)
-            {
-                SaveScore();
-                Thread.Sleep(1000);
-            }
+            gameEnded = true;
         }
 
         public static void CompactWell()
         {
-
             int lines = 0;
-
             var y = 0;
             while (y < wellHeight)
             {
@@ -280,14 +288,13 @@ namespace TetrisWPF
                         break;
                     }
                 }
-                if (false == allFilled)
+                if (!allFilled)
                 {
                     y++;
                     continue;
                 }
 
                 lines++;
-
                 for (var y2 = y; y2 < wellHeight - 2; y2++)
                 {
                     for (var x = 0; x < wellWidth; x++)
@@ -299,8 +306,6 @@ namespace TetrisWPF
                 {
                     well[wellHeight - 1, x] = 0;
                 }
-
-
             }
 
             switch (lines)
@@ -325,24 +330,19 @@ namespace TetrisWPF
         public static bool CollisionDetected(int pieceNewRotation, int pieceNewX, int pieceNewY)
         {
             var currentPiece = pieces[pieceNo];
-            var dim = currentPiece.GetLength(1); // always square
+            var dim = currentPiece.GetLength(1);
 
-            Console.SetCursorPosition(60, 12);
-
-            // left 
             for (var y = dim - 1; y >= 0; y--)
             {
                 for (var x = 0; x < dim - 1; x++)
                 {
                     if (currentPiece[pieceNewRotation, y, x] == 1 && pieceNewX + x < 0)
                     {
-                        //Console.Write($"collision left newX={pieceNewX} x={x}");
                         return true;
                     }
                 }
             }
 
-            // right
             for (var y = dim - 1; y >= 0; y--)
             {
                 for (var x = dim - 1; x >= 0; x--)
@@ -354,7 +354,6 @@ namespace TetrisWPF
                 }
             }
 
-            // well bottom (y = 0)
             for (var y = dim - 1; y >= 0; y--)
             {
                 for (var x = 0; x < dim; x++)
@@ -363,7 +362,6 @@ namespace TetrisWPF
                     {
                         return true;
                     }
-
                 }
             }
 
@@ -375,25 +373,22 @@ namespace TetrisWPF
                     {
                         return true;
                     }
-
                 }
             }
             return false;
-
-
         }
 
         private static void UpdateDropSpeed()
         {
             if (score >= 10000)
             {
-                dropInterval = 100; // maksymalne przyspieszenie
+                dropInterval = 100;
             }
-            if (score >= 7500)
+            else if (score >= 7500)
             {
                 dropInterval = 150;
             }
-            if (score >= 5000)
+            else if (score >= 5000)
             {
                 dropInterval = 200;
             }
@@ -410,16 +405,15 @@ namespace TetrisWPF
                 dropInterval = 800;
             }
 
-            // Aktualizacja timera z nowym odstępem czasowym
-            timer.Change(0, dropInterval);
+            if (timer != null)
+                timer.Interval = TimeSpan.FromMilliseconds(dropInterval);
         }
 
         public static void SaveScore()
         {
             string result = $"{playerName}: {score}";
             File.AppendAllText("scoreboard.txt", result + Environment.NewLine);
-            Console.SetCursorPosition(50, 9);
-            Console.WriteLine("Wynik zapisany!");
+            // ngl nie wiem gdzie to sie zapisuje
         }
 
         public static void ResetGameState()
@@ -427,17 +421,11 @@ namespace TetrisWPF
             gameEnded = false;
             keyPressedRecently = false;
             score = 0;
-
             ResetBoard();
             ResetBlocks();
-            ResetTimer();
-        }
-
-        private static void ResetTimer()
-        {
             if (timer != null)
             {
-                timer.Dispose();
+                timer.Stop();
             }
         }
 
@@ -458,7 +446,7 @@ namespace TetrisWPF
             pieceNo = 4;
             pieceRotate = 1;
             pieceX = 4;
-            pieceY = 22;
+            pieceY = pieceYinit;
         }
     }
 }

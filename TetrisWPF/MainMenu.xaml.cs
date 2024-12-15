@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
 namespace TetrisWPF
 {
@@ -23,6 +12,24 @@ namespace TetrisWPF
         public MainMenu()
         {
             InitializeComponent();
+        }
+
+        // Obsługa przycisku START
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new GameBoard());
+        }
+
+        // Obsługa przycisku SCOREBOARD
+        private void ScoreboardButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Scoreboard());
+        }
+
+        // Obsługa przycisku EXIT
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
