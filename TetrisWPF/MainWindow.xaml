@@ -5,61 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TetrisWPF"
         mc:Ignorable="d"
-        Title="MainMenu" Height="700" Width="700"
-        MaxHeight="700" MaxWidth="700"
-
-        Foreground="Wheat"
-        FontSize="34"
-        KeyDown="Window_KeyDown">
+        Title="Background" Height="700" Width="800"
+        MaxHeight="700" MaxWidth="800">
 
     <Window.Background>
         <ImageBrush ImageSource="Assets/space_background.png" Opacity="1"/>
     </Window.Background>
 
-    <Window.Resources>
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Padding" Value="20,13"/>
-            <Setter Property="Margin" Value="20"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontFamily" Value="eurofighter"/>
-            <Setter Property="FontWeight" Value="Light"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="BorderBrush" Value="White"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Color="Transparent">
-                    </SolidColorBrush>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Black" Direction="315" ShadowDepth="3" BlurRadius="10"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border 
-                            CornerRadius="20"
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}" 
-                            Background="{TemplateBinding Background}">
-                            <ContentPresenter 
-                                HorizontalAlignment="Center" 
-                                VerticalAlignment="Center" 
-                                Margin="{TemplateBinding Padding}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-
     <Grid>
-
-        <Canvas Width="700" Height="700">
-            <Polygon Points="0,0 700,0 0,700">
+        <Canvas Width="800" Height="700">
+            <Polygon Points="0,0 800,0 0,700">
                 <Polygon.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0.5, 0.5" Opacity="0.15">
                         <GradientStop Color="#f64f59" Offset="0.2"/>
@@ -67,7 +22,7 @@
                     </LinearGradientBrush>
                 </Polygon.Fill>
             </Polygon>
-            <Polygon Points="700,700 700,0 0,700">
+            <Polygon Points="800,700 800,0 0,700">
                 <Polygon.Fill>
                     <LinearGradientBrush EndPoint="0.5,0.5" StartPoint="1, 1" Opacity="0.15">
                         <GradientStop Color="#99fffd" Offset="0.2"/>
@@ -92,8 +47,18 @@
                     </LinearGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
+        </Canvas>
 
-            <!--
+        <Frame x:Name="MainFrame"
+               NavigationUIVisibility="Hidden"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch" />
+
+    </Grid>
+</Window>
+
+
+<!--
             <Ellipse Canvas.Left="200" Canvas.Top="150" Height="1100" Width="300">
                 <Ellipse.Fill>
                     <RadialGradientBrush Opacity="0.75">
@@ -102,19 +67,8 @@
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
-            -->
-        </Canvas>
-
-        <StackPanel x:Name="Menu" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Margin="0,200,0,0">
-            <Button Style ="{StaticResource ButtonStyle}" Content="START"/>
-            <Button Style ="{StaticResource ButtonStyle}" Content="SCOREBOARD"/>
-            <Button Style ="{StaticResource ButtonStyle}" Content="EXiT"/>
-        </StackPanel>
-
-
-        <!--
-        <Ellipse HorizontalAlignment="Center" VerticalAlignment="Top" Height = "700" Width="800" Margin="0,-560,0,0">
+    
+       <Ellipse HorizontalAlignment="Center" VerticalAlignment="Top" Height = "700" Width="800" Margin="0,-560,0,0">
             <Ellipse.Fill>
                 <RadialGradientBrush>
                     <GradientStop Color="#ff00cc" Offset="0.12"/>
@@ -122,27 +76,4 @@
                 </RadialGradientBrush>
             </Ellipse.Fill>
         </Ellipse>
-        -->
-
-        
-        <!--<Ellipse HorizontalAlignment="Center" VerticalAlignment="Top" Height = "50" Width="250" Margin="0,120,0,0">
-            <Ellipse.Fill>
-                <LinearGradientBrush>
-                    <GradientStop Color="Black" Offset="0.15"/>
-                    <GradientStop Color="#8E54E9" Offset="1"/>
-                </LinearGradientBrush>
-            </Ellipse.Fill>
-        </Ellipse>
-        -->
-
-
-        <Image Source="Assets/logo2.png"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Top"
-               Width="200"
-               Height="200"
-               Margin="0,30,0,0"
-               Grid.Row="0">
-        </Image>
-    </Grid>
-</Window>
+-->

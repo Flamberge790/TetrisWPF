@@ -22,6 +22,7 @@ namespace TetrisWPF
         {
             Model = new TetrisModel();
             InitializeComponent();
+            MainFrame.Navigate(new MainMenu());
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
