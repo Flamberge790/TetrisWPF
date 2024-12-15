@@ -5,31 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TetrisWPF"
         mc:Ignorable="d"
-        Title="Background" Height="700" Width="800"
-        MaxHeight="700" MaxWidth="800">
+        Title="Background" Height="700" Width="800">
+    <!--MaxHeight="700" MaxWidth="800"-->
 
     <Window.Background>
         <ImageBrush ImageSource="Assets/space_background.png" Opacity="1"/>
     </Window.Background>
 
+    <Window.Resources>
+        <local:PolygonPointConverter x:Key="PolygonPointConverter" />
+        <local:PolygonPointConverter2 x:Key="PolygonPointConverter2" />
+    </Window.Resources>
+
     <Grid>
-        <Canvas Width="800" Height="700">
-            <Polygon Points="0,0 800,0 0,700">
+        <Canvas x:Name="MainCanvas">
+            
+            <Polygon>
                 <Polygon.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0.5, 0.5" Opacity="0.15">
                         <GradientStop Color="#f64f59" Offset="0.2"/>
                         <GradientStop Color="#8E54E9" Offset="1"/>
                     </LinearGradientBrush>
                 </Polygon.Fill>
+                <Polygon.Points>
+                    <MultiBinding Converter="{StaticResource PolygonPointConverter}">
+                        <Binding ElementName="MainCanvas" Path="ActualWidth" />
+                        <Binding ElementName="MainCanvas" Path="ActualHeight" />
+                    </MultiBinding>
+                </Polygon.Points>
             </Polygon>
-            <Polygon Points="800,700 800,0 0,700">
+            
+            <Polygon>
                 <Polygon.Fill>
                     <LinearGradientBrush EndPoint="0.5,0.5" StartPoint="1, 1" Opacity="0.15">
                         <GradientStop Color="#99fffd" Offset="0.2"/>
                         <GradientStop Color="#8E54E9" Offset="1"/>
                     </LinearGradientBrush>
                 </Polygon.Fill>
+                <Polygon.Points>
+                    <MultiBinding Converter="{StaticResource PolygonPointConverter2}">
+                        <Binding ElementName="MainCanvas" Path="ActualWidth" />
+                        <Binding ElementName="MainCanvas" Path="ActualHeight" />
+                    </MultiBinding>
+                </Polygon.Points>
             </Polygon>
+            
             <Ellipse Canvas.Left="-90" Canvas.Top="-30" Height = "300" Width="300">
                 <Ellipse.Fill>
                     <LinearGradientBrush Opacity="0.5">
@@ -47,13 +67,14 @@
                     </LinearGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
+            
         </Canvas>
 
         <Frame x:Name="MainFrame"
-               NavigationUIVisibility="Hidden"
-               HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch" />
-
+           NavigationUIVisibility="Hidden"
+           HorizontalAlignment="Stretch"
+           VerticalAlignment="Stretch"
+        />
     </Grid>
 </Window>
 
