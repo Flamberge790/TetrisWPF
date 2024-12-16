@@ -35,7 +35,7 @@
         <Viewbox Grid.Row="1" Grid.Column="1"
         HorizontalAlignment="Center"
         VerticalAlignment="Center" 
-        Margin="15,15,15,15"
+        Margin="15,0,15,15"
         Stretch="Fill">
             <StackPanel 
                 x:Name="ScoreList"
@@ -53,14 +53,14 @@
         BorderBrush="White" 
         BorderThickness="2" 
         CornerRadius="15" 
-        Margin="15,15,15,15">
+        Margin="15,0,15,15">
         </Border>
 
         <Viewbox Grid.Row="2" Grid.Column="1"
         HorizontalAlignment="Center"
         VerticalAlignment="Center" 
         Margin="15,15,15,15">
-            <Button Style="{StaticResource ButtonStyle}" Content="RETURN" Click="ReturnToMenu_Click"/>
+            <Button Style="{StaticResource CustomButtonStyle}" Content="RETURN" Click="ReturnToMenu_Click" Height="55" Width="160"/>
         </Viewbox>
 
     </Grid>

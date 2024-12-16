@@ -12,9 +12,9 @@
     <Grid>
         <StackPanel x:Name="Menu" HorizontalAlignment="Center" VerticalAlignment="Center"
                     Margin="0,200,0,0">
-            <Button Style ="{StaticResource ButtonStyle}" Content="START" Click="StartButton_Click"/>
-            <Button Style ="{StaticResource ButtonStyle}" Content="SCOREBOARD" Click="ScoreboardButton_Click"/>
-            <Button Style ="{StaticResource ButtonStyle}" Content="EXiT" Click="ExitButton_Click"/>
+            <Button Style ="{StaticResource CustomButtonStyle}" Content="START" Click="StartButton_Click" Height="55" Width="160"/>
+            <Button Style ="{StaticResource CustomButtonStyle}" Content="SCOREBOARD" Click="ScoreboardButton_Click" Height="55" Width="160"/>
+            <Button Style ="{StaticResource CustomButtonStyle}" Content="EXiT" Click="ExitButton_Click" Height="55" Width="160"/>
         </StackPanel>
 
         <Image Source="Assets/logo2.png"
