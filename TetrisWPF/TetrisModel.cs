@@ -22,7 +22,7 @@ namespace TetrisWPF
 
         // gamestate
         public static Random rnd = new Random();
-        static DispatcherTimer timer;    // Zmiana: użycie DispatcherTimer dla WPF
+        internal static DispatcherTimer? timer;    // Zmiana: użycie DispatcherTimer dla WPF
         static int dropInterval = 1000;
         public static bool gameEnded = false;
         public static bool keyPressedRecently = false;
@@ -35,6 +35,9 @@ namespace TetrisWPF
         // player
         public static string playerName = "";
         public static int score = 0;
+
+        public static Action? OnRedrawRequested;
+        public static Action? OnGameOver;
 
         public static readonly List<int[,,]> pieces = new List<int[,,]> {
             // I
@@ -201,8 +204,6 @@ namespace TetrisWPF
                         gameEnded = true;
                         break;
                 }
-
-                keyPressedRecently = true;
             }
         }
 
@@ -256,16 +257,6 @@ namespace TetrisWPF
             StartTimer();
         }
 
-        private static void Tick(object sender, EventArgs e)
-        {
-            if (!gameEnded && !keyPressedRecently)
-            {
-                HandleKey(Key.Down);
-            }
-
-            keyPressedRecently = false;
-        }
-
         public static void StartTimer()
         {
             if (timer != null)
@@ -274,20 +265,41 @@ namespace TetrisWPF
                 timer = null;
             }
 
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(dropInterval);
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(dropInterval)
+            };
             timer.Tick += Tick;
             timer.Start();
         }
 
+        internal static void Tick(object? sender, EventArgs e)
+        {
+            if (gameEnded)
+            {
+                StopGame();
+                OnGameOver?.Invoke();
+                return;
+            }
+            if (!keyPressedRecently)
+            {
+                HandleKey(Key.Down);
+                keyPressedRecently = true;
+            }
+
+            keyPressedRecently = false;
+
+            OnRedrawRequested?.Invoke();
+        }
+
         public static void StopGame()
         {
+            gameEnded = true;
             if (timer != null)
             {
                 timer.Stop();
                 timer = null;
             }
-            gameEnded = true;
         }
 
         public static void CompactWell()

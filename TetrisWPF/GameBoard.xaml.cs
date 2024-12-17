@@ -12,7 +12,8 @@ namespace TetrisWPF
     public partial class GameBoard : Page
     {
         private const int CellSize = 25;
-        private DispatcherTimer gameTimer;
+        TetrisModel tetris;
+        //private DispatcherTimer _timer = TetrisModel.timer;
 
         public GameBoard()
         {
@@ -20,7 +21,6 @@ namespace TetrisWPF
             this.Focusable = true;
             this.Focus();
             Loaded += GameBoard_Loaded;
-            gameTimer = new DispatcherTimer();
         }
 
         private void GameBoard_Loaded(object sender, RoutedEventArgs e)
@@ -49,23 +49,31 @@ namespace TetrisWPF
         private void StartGame()
         {
             TetrisModel.StartNewGame(TetrisModel.playerName);
-            gameTimer = new DispatcherTimer();
-            gameTimer.Interval = TimeSpan.FromMilliseconds(1000);
-            gameTimer.Tick += GameTimer_Tick;
-            gameTimer.Start();
+
+            TetrisModel.OnRedrawRequested = Redraw;
+            TetrisModel.OnGameOver = ShowGameOverScreen;
+
             Redraw();
         }
 
-        private void GameTimer_Tick(object sender, EventArgs e)
+        private void ShowGameOverScreen()
+        {
+
+            TetrisModel.SaveScore();
+            FinalScoreText.Text = $"SCORE: {TetrisModel.score}";
+            GameOverPanel.Visibility = Visibility.Visible;
+        }
+
+        private void GameTimer_Tick(object? sender, EventArgs e)
         {
             if (!TetrisModel.gameEnded)
             {
-                TetrisModel.HandleKey(Key.Down);
+                TetrisModel.Tick(sender, e);
                 Redraw();
             }
             else
             {
-                gameTimer.Stop();
+                TetrisModel.timer.Stop();
                 TetrisModel.SaveScore();
                 FinalScoreText.Text = $"SCORE: {TetrisModel.score}";
                 GameOverPanel.Visibility = Visibility.Visible;
@@ -106,7 +114,6 @@ namespace TetrisWPF
                             TetrisModel.gameEnded = true;
                             FinalScoreText.Text = $"SCORE: {TetrisModel.score}";
                             GameOverPanel.Visibility = Visibility.Visible;
-                            gameTimer.Stop();
                             return;
                         }
 
@@ -200,9 +207,9 @@ namespace TetrisWPF
 
         private void RestartButton_Click(object sender, RoutedEventArgs e)
         {
+            TetrisModel.ResetGameState();
             TetrisModel.StartNewGame(TetrisModel.playerName);
             GameOverPanel.Visibility = Visibility.Collapsed;
-            gameTimer.Start();
             Redraw();
         }
 
