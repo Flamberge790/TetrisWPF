@@ -34,7 +34,7 @@ namespace TetrisWPF
         {
             if (!string.IsNullOrWhiteSpace(PlayerNameTextBox.Text))
             {
-                TetrisModel.playerName = PlayerNameTextBox.Text;
+                TetrisModel.playerName = PlayerNameTextBox.Text.ToUpper();
                 EnterNamePanel.Visibility = Visibility.Collapsed;
                 GameCanvas.Visibility = Visibility.Visible;
                 NextPiecesCanvas.Visibility = Visibility.Visible;
@@ -119,7 +119,7 @@ namespace TetrisWPF
 
                         if (boardY >= 0 && boardY < TetrisModel.wellHeight)
                         {
-                            DrawCell(boardX, boardY, Brushes.Black, Brushes.Gray, 1);
+                            DrawCell(boardX, boardY, Brushes.Black, Brushes.White, 1);
                         }
                     }
                 }

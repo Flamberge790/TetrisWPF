@@ -8,7 +8,7 @@
       d:DesignHeight="700" d:DesignWidth="800"
       MaxHeight="700" MaxWidth="800"
       Title="GameBoard"
-      KeyDown="Page_KeyDown">
+      >
 
     <Grid>
         <!--
@@ -156,9 +156,11 @@
                  FontSize="26"
                  FontFamily="eurofighter"
                  HorizontalAlignment="Center"
-                 Margin="0,0,0,10"/>
+                 Margin="0,0,0,10"
+                 CharacterCasing="Upper">
+                </TextBox>
 
-                <Button Content="Start Game"
+                    <Button Content="Start Game"
                 Width="160"
                 Height="55"
                 Click="StartGameButton_Click"

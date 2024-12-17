@@ -510,7 +510,7 @@ namespace TetrisWPF
 
         private static void ResetBlocks()
         {
-            pieceYinit = 22;
+            pieceYinit = 24;
             pieceNo = 4;
             pieceRotate = 1;
             pieceX = 4;
