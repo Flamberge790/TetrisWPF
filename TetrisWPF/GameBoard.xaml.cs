@@ -88,9 +88,10 @@ namespace TetrisWPF
             {
                 for (int x = 0; x < TetrisModel.wellWidth; x++)
                 {
-                    if (TetrisModel.well[y, x] == 1)
+                    int value = TetrisModel.well[y, x];
+                    if (value > 0)
                     {
-                        DrawCell(x, y, Brushes.BlueViolet, Brushes.Black, 1);
+                        DrawCell(x, y, TetrisModel.pieceColors[value - 1], Brushes.Black, 1);
                     }
                 }
             }
@@ -119,7 +120,7 @@ namespace TetrisWPF
 
                         if (boardY >= 0 && boardY < TetrisModel.wellHeight)
                         {
-                            DrawCell(boardX, boardY, Brushes.Black, Brushes.White, 1);
+                            DrawCell(boardX, boardY, TetrisModel.pieceColors[TetrisModel.pieceNo], Brushes.Black, 1);
                         }
                     }
                 }
@@ -146,14 +147,15 @@ namespace TetrisWPF
             int piecesToShow = Math.Min(TetrisModel.upcomingPieces.Count, 5);
             for (int i = 0; i < piecesToShow; i++)
             {
-                int pieceId = TetrisModel.upcomingPieces[i];
+                int pieceId = TetrisModel.upcomingPieces[i];  // Id klocka
                 var pieceData = TetrisModel.pieces[pieceId];
+                Brush pieceColor = TetrisModel.pieceColors[pieceId]; // Pobranie koloru klocka
                 int dim = pieceData.GetLength(1);
 
                 Canvas previewCanvas = new Canvas
                 {
-                    Width = 4 * (CellSize),
-                    Height = 4 * (CellSize),
+                    Width = 4 * CellSize,
+                    Height = 4 * CellSize,
                     Margin = new Thickness(0, 0, 0, 25)
                 };
 
@@ -161,22 +163,23 @@ namespace TetrisWPF
                 {
                     for (int px = 0; px < dim; px++)
                     {
-                        if (pieceData[0, py, px] == 1)
+                        if (pieceData[0, py, px] == 1) // Pierwsza rotacja klocka
                         {
                             Rectangle cell = new Rectangle
                             {
                                 Width = CellSize,
                                 Height = CellSize,
-                                Fill = Brushes.DarkTurquoise,
+                                Fill = pieceColor,       // Ustawienie koloru klocka
                                 Stroke = Brushes.Black,
                                 StrokeThickness = 0.5
                             };
-                            Canvas.SetLeft(cell, px * (CellSize));
-                            Canvas.SetTop(cell, py * (CellSize));
+                            Canvas.SetLeft(cell, px * CellSize);
+                            Canvas.SetTop(cell, py * CellSize);
                             previewCanvas.Children.Add(cell);
                         }
                     }
                 }
+
                 NextPiecesPanel.Children.Add(previewCanvas);
             }
         }

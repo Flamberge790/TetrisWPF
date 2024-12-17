@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace TetrisWPF
@@ -38,6 +39,17 @@ namespace TetrisWPF
 
         public static Action? OnRedrawRequested;
         public static Action? OnGameOver;
+
+        public static readonly List<Brush> pieceColors = new List<Brush>
+        {
+            Brushes.Cyan,       // I
+            Brushes.Blue,       // J
+            Brushes.Orange,     // L
+            Brushes.Yellow,     // O
+            Brushes.LawnGreen,  // S
+            Brushes.DarkViolet, // T
+            Brushes.Red         // Z
+        };
 
         public static readonly List<int[,,]> pieces = new List<int[,,]> {
             // I
@@ -113,13 +125,9 @@ namespace TetrisWPF
                     if (currentPiece[pieceRotate, y, x] == 1)
                     {
                         int boardY = pieceY - y;
-                        if (boardY < 0)
+                        if (boardY >= 0)
                         {
-                            reachedTop = true;
-                        }
-                        else
-                        {
-                            well[boardY, pieceX + x] = 1;
+                            well[boardY, pieceX + x] = pieceNo + 1; // Zapisujemy indeks koloru +1
                         }
                     }
                 }
@@ -367,46 +375,23 @@ namespace TetrisWPF
             var currentPiece = pieces[pieceNo];
             var dim = currentPiece.GetLength(1);
 
-            for (var y = dim - 1; y >= 0; y--)
-            {
-                for (var x = 0; x < dim - 1; x++)
-                {
-                    if (currentPiece[pieceNewRotation, y, x] == 1 && pieceNewX + x < 0)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            for (var y = dim - 1; y >= 0; y--)
-            {
-                for (var x = dim - 1; x >= 0; x--)
-                {
-                    if (currentPiece[pieceNewRotation, y, x] == 1 && pieceNewX + x >= wellWidth)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            for (var y = dim - 1; y >= 0; y--)
+            for (var y = 0; y < dim; y++)
             {
                 for (var x = 0; x < dim; x++)
                 {
-                    if (currentPiece[pieceNewRotation, y, x] == 1 && pieceNewY - y < 0)
+                    // Sprawdzamy tylko pola klocka
+                    if (currentPiece[pieceNewRotation, y, x] == 1)
                     {
-                        return true;
-                    }
-                }
-            }
+                        int boardX = pieceNewX + x;
+                        int boardY = pieceNewY - y;
 
-            for (var y = dim - 1; y >= 0; y--)
-            {
-                for (var x = 0; x < dim; x++)
-                {
-                    if (currentPiece[pieceNewRotation, y, x] == 1 && well[pieceNewY - y, pieceNewX + x] == 1)
-                    {
-                        return true;
+                        // Kolizja z granicami planszy
+                        if (boardX < 0 || boardX >= wellWidth || boardY < 0 || boardY >= wellHeight)
+                            return true;
+
+                        // Kolizja z innymi klockami
+                        if (well[boardY, boardX] > 0)
+                            return true;
                     }
                 }
             }
