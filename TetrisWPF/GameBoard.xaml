@@ -54,33 +54,114 @@
 
 
         <Viewbox MaxWidth="150" MaxHeight="50" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
-                <TextBlock x:Name="ScoreText"
+            <TextBlock x:Name="ScoreText"
                     Foreground="White"
                     FontFamily="eurofighter"
                     Margin="15,15,15,15"
                     />
-            </Viewbox>
+        </Viewbox>
 
 
 
 
 
-            <!-- next piece -->
+        <!-- next piece -->
 
 
-                <!-- score -->
+        <!-- score -->
 
 
-                <!-- game over (do zmienienia, zrobi sie ladny i zaladuje) -->
-            <TextBlock x:Name="GameOverText"
-                           Foreground="Red"
-                           FontSize="36"
-                           FontFamily="eurofighter"
-                           FontWeight="Bold"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Visibility="Collapsed"
-                           Text="GAME OVER!"
-                           Grid.ColumnSpan="2"/>
+        <!-- game over (do zmienienia, zrobi sie ladny i zaladuje) -->
+        <Border x:Name="GameOverPanel"
+        Visibility="Collapsed"
+        Background="Black"
+        Opacity="0.8"
+        CornerRadius="15"
+        BorderBrush="White"
+        BorderThickness="2"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Width="350"
+        Height="250"
+        Margin="0"
+        Grid.ColumnSpan="2"
+        Grid.RowSpan="3">
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                <!-- Tytuł: GAME OVER -->
+                <TextBlock Text="GAME OVER!"
+                   Foreground="Red"
+                   FontSize="36"
+                   FontFamily="eurofighter"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,10"/>
+
+                <!-- Wyświetlenie wyniku -->
+                <TextBlock x:Name="FinalScoreText"
+                   Text="SCORE: 0"
+                   Foreground="White"
+                   FontSize="20"
+                   FontFamily="eurofighter"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,20"/>
+
+                <!-- Przycisk Restart -->
+                <Button x:Name="RestartButton"
+                Content="Restart"
+                Width="150"
+                Height="40"
+                Margin="0,5,0,5"
+                Click="RestartButton_Click"
+                HorizontalAlignment="Center"/>
+
+                <!-- Przycisk Return to Menu -->
+                <Button x:Name="ReturnToMenuButton"
+                Content="Return to Menu"
+                Width="150"
+                Height="40"
+                Margin="0,5,0,0"
+                Click="ReturnToMenuButton_Click"
+                HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <Border x:Name="EnterNamePanel"
+        Visibility="Visible"
+        Background="Black"
+        Opacity="0.8"
+        CornerRadius="15"
+        BorderBrush="White"
+        BorderThickness="2"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Width="250"
+        Height="170"
+        Margin="0"
+        Grid.ColumnSpan="2"
+        Grid.RowSpan="3">
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                <TextBlock Text="Enter your name:"
+                   Foreground="White"
+                   FontSize="20"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,10"/>
+
+                <TextBox x:Name="PlayerNameTextBox"
+                 Width="200"
+                 Height="30"
+                 FontSize="16"
+                 HorizontalAlignment="Center"
+                 Margin="0,0,0,10"/>
+
+                <Button Content="Start Game"
+                Width="100"
+                Height="30"
+                Click="StartGameButton_Click"
+                HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
     </Grid>
 </Page>

@@ -11,7 +11,7 @@ namespace TetrisWPF
     {
         // block
         private static object syncObject = new object();
-        public static int pieceYinit = 22;
+        public static int pieceYinit = 24;
         public static int pieceNo = 4;
         public static int pieceRotate = 1;
         public static int pieceX = 4;
@@ -101,6 +101,7 @@ namespace TetrisWPF
         {
             var currentPiece = pieces[pieceNo];
             var dim = currentPiece.GetLength(1);
+            bool reachedTop = false;
 
             for (var y = dim - 1; y >= 0; y--)
             {
@@ -108,17 +109,33 @@ namespace TetrisWPF
                 {
                     if (currentPiece[pieceRotate, y, x] == 1)
                     {
-                        well[pieceY - y, pieceX + x] = 1;
-                    }
-                    if (pieceY - y >= wellHeight)
-                    {
-                        gameEnded = true;
+                        int boardY = pieceY - y;
+                        if (boardY < 0)
+                        {
+                            reachedTop = true;
+                        }
+                        else
+                        {
+                            well[boardY, pieceX + x] = 1;
+                        }
                     }
                 }
             }
 
+            if (reachedTop)
+            {
+                gameEnded = true; // Koniec gry, gdy klocek nakłada się na górze planszy
+                return;
+            }
+
             CompactWell();
             RandomizePiece();
+
+            // Sprawdzenie, czy nowy klocek ma kolizję na starcie
+            if (CollisionDetected(pieceRotate, pieceX, pieceY))
+            {
+                gameEnded = true;
+            }
         }
 
         public static void HandleKey(Key key)
@@ -411,9 +428,42 @@ namespace TetrisWPF
 
         public static void SaveScore()
         {
-            string result = $"{playerName}: {score}";
-            File.AppendAllText("scoreboard.txt", result + Environment.NewLine);
-            // ngl nie wiem gdzie to sie zapisuje
+            string filePath = "scoreboard.txt";
+            List<string> scores = new List<string>();
+
+            // Wczytanie istniejących wyników, jeśli plik istnieje
+            if (File.Exists(filePath))
+            {
+                scores = File.ReadAllLines(filePath)
+                             .Where(line => !string.IsNullOrWhiteSpace(line)) // Pomijamy puste linie
+                             .ToList();
+            }
+
+            // Dodanie nowego wyniku
+            string newScore = $"{playerName}: {score}";
+            scores.Add(newScore);
+
+            // Sortowanie wyników malejąco
+            var sortedScores = scores
+                .Select(s => new { Text = s, Value = ExtractScoreValue(s) })
+                .OrderByDescending(s => s.Value)
+                .Select(s => s.Text)
+                .ToList();
+
+            // Zapisanie wyników z powrotem do pliku
+            File.WriteAllLines(filePath, sortedScores);
+        }
+
+        private static int ExtractScoreValue(string scoreText)
+        {
+            if (string.IsNullOrWhiteSpace(scoreText)) return 0;
+
+            var parts = scoreText.Split(':');
+            if (parts.Length == 2 && int.TryParse(parts[1].Trim(), out int scoreValue))
+            {
+                return scoreValue;
+            }
+            return 0;
         }
 
         public static void ResetGameState()

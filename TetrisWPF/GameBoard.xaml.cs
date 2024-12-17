@@ -23,18 +23,32 @@ namespace TetrisWPF
 
         private void GameBoard_Loaded(object sender, RoutedEventArgs e)
         {
-            TetrisModel.StartNewGame("Player");
-
+            EnterNamePanel.Visibility = Visibility.Visible;
             GameCanvas.Width = TetrisModel.wellWidth * CellSize;
             GameCanvas.Height = TetrisModel.wellHeight * CellSize;
+        }
 
+        private void StartGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(PlayerNameTextBox.Text))
+            {
+                TetrisModel.playerName = PlayerNameTextBox.Text;
+                EnterNamePanel.Visibility = Visibility.Collapsed;
+                StartGame();
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid name!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void StartGame()
+        {
+            TetrisModel.StartNewGame(TetrisModel.playerName);
             gameTimer = new DispatcherTimer();
             gameTimer.Interval = TimeSpan.FromMilliseconds(300);
             gameTimer.Tick += GameTimer_Tick;
             gameTimer.Start();
-
-            Keyboard.Focus(this);
-
             Redraw();
         }
 
@@ -48,7 +62,9 @@ namespace TetrisWPF
             else
             {
                 gameTimer.Stop();
-                GameOverText.Visibility = Visibility.Visible;
+                TetrisModel.SaveScore();
+                FinalScoreText.Text = $"SCORE: {TetrisModel.score}";
+                GameOverPanel.Visibility = Visibility.Visible;
             }
         }
 
@@ -80,6 +96,16 @@ namespace TetrisWPF
                     {
                         int boardX = TetrisModel.pieceX + px;
                         int boardY = TetrisModel.pieceY - py;
+
+                        if (boardY >= TetrisModel.wellHeight || boardY < 0)
+                        {
+                            TetrisModel.gameEnded = true;
+                            FinalScoreText.Text = $"SCORE: {TetrisModel.score}";
+                            GameOverPanel.Visibility = Visibility.Visible;
+                            gameTimer.Stop();
+                            return;
+                        }
+
                         if (boardY >= 0 && boardY < TetrisModel.wellHeight)
                         {
                             DrawCell(boardX, boardY, Brushes.Yellow);
@@ -89,7 +115,6 @@ namespace TetrisWPF
             }
 
             ScoreText.Text = $"SCORE: {TetrisModel.score}";
-
             ShowUpcomingPieces();
         }
 
@@ -163,10 +188,25 @@ namespace TetrisWPF
 
         private void Page_KeyDown(object sender, KeyEventArgs e)
         {
-            if (TetrisModel.gameEnded) return;
+            if (TetrisModel.gameEnded || EnterNamePanel.Visibility == Visibility.Visible) return;
 
             TetrisModel.HandleKey(e.Key);
             Redraw();
+        }
+
+        private void RestartButton_Click(object sender, RoutedEventArgs e)
+        {
+            TetrisModel.StartNewGame(TetrisModel.playerName);
+            GameOverPanel.Visibility = Visibility.Collapsed;
+            gameTimer.Start();
+            Redraw();
+        }
+
+        private void ReturnToMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            TetrisModel.playerName = ""; // Wyczyszczenie nicku
+            GameOverPanel.Visibility = Visibility.Collapsed;
+            NavigationService.Navigate(new MainMenu());
         }
     }
 }
