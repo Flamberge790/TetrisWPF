@@ -48,7 +48,7 @@
         </Viewbox>
 
         <Border Grid.Row="1" Grid.Column="1"
-        Opacity="0.15"
+        Opacity="0.35"
         Background="Black" 
         BorderBrush="White" 
         BorderThickness="2" 

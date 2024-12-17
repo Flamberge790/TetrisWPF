@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -19,6 +20,7 @@ namespace TetrisWPF
             this.Focusable = true;
             this.Focus();
             Loaded += GameBoard_Loaded;
+            gameTimer = new DispatcherTimer();
         }
 
         private void GameBoard_Loaded(object sender, RoutedEventArgs e)
@@ -34,6 +36,8 @@ namespace TetrisWPF
             {
                 TetrisModel.playerName = PlayerNameTextBox.Text;
                 EnterNamePanel.Visibility = Visibility.Collapsed;
+                GameCanvas.Visibility = Visibility.Visible;
+                NextPiecesCanvas.Visibility = Visibility.Visible;
                 StartGame();
             }
             else
@@ -46,7 +50,7 @@ namespace TetrisWPF
         {
             TetrisModel.StartNewGame(TetrisModel.playerName);
             gameTimer = new DispatcherTimer();
-            gameTimer.Interval = TimeSpan.FromMilliseconds(300);
+            gameTimer.Interval = TimeSpan.FromMilliseconds(1000);
             gameTimer.Tick += GameTimer_Tick;
             gameTimer.Start();
             Redraw();
@@ -78,7 +82,7 @@ namespace TetrisWPF
                 {
                     if (TetrisModel.well[y, x] == 1)
                     {
-                        DrawCell(x, y, Brushes.Cyan);
+                        DrawCell(x, y, Brushes.BlueViolet, Brushes.Black, 1);
                     }
                 }
             }
@@ -108,7 +112,7 @@ namespace TetrisWPF
 
                         if (boardY >= 0 && boardY < TetrisModel.wellHeight)
                         {
-                            DrawCell(boardX, boardY, Brushes.Yellow);
+                            DrawCell(boardX, boardY, Brushes.Black, Brushes.Gray, 1);
                         }
                     }
                 }
@@ -141,8 +145,8 @@ namespace TetrisWPF
 
                 Canvas previewCanvas = new Canvas
                 {
-                    Width = dim * (CellSize),
-                    Height = dim * (CellSize),
+                    Width = 4 * (CellSize),
+                    Height = 4 * (CellSize),
                     Margin = new Thickness(0, 0, 0, 25)
                 };
 
@@ -156,8 +160,8 @@ namespace TetrisWPF
                             {
                                 Width = CellSize,
                                 Height = CellSize,
-                                Fill = Brushes.Yellow,
-                                Stroke = Brushes.Gray,
+                                Fill = Brushes.DarkTurquoise,
+                                Stroke = Brushes.Black,
                                 StrokeThickness = 0.5
                             };
                             Canvas.SetLeft(cell, px * (CellSize));
@@ -170,15 +174,15 @@ namespace TetrisWPF
             }
         }
 
-        private void DrawCell(int x, int y, Brush color)
+        private void DrawCell(int x, int y, Brush color, Brush stroke, double strokethickness)
         {
             Rectangle rect = new Rectangle()
             {
-                Width = CellSize,
-                Height = CellSize,
+                Width = CellSize - 0.5,
+                Height = CellSize - 0.5,
                 Fill = color,
-                Stroke = Brushes.Gray,
-                StrokeThickness = 1
+                Stroke = stroke,
+                StrokeThickness = strokethickness
             };
             Canvas.SetLeft(rect, x * CellSize);
             int invertedY = (TetrisModel.wellHeight - 1 - y);
