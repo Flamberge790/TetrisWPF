@@ -308,7 +308,6 @@ namespace TetrisWPF
 
         public static void StopGame()
         {
-            gameEnded = true;
             if (timer != null)
             {
                 timer.Stop();
@@ -500,6 +499,18 @@ namespace TetrisWPF
             pieceRotate = 1;
             pieceX = 4;
             pieceY = pieceYinit;
+        }
+
+        public static int CalculateShadowY()
+        {
+            int shadowY = pieceY;
+
+            while (!CollisionDetected(pieceRotate, pieceX, shadowY - 1))
+            {
+                shadowY--;
+            }
+
+            return shadowY;
         }
     }
 }

@@ -51,7 +51,8 @@
             Background="Black"
             Opacity="0.7"
             Width="100"
-            Height="500">
+            Height="500"
+            CornerRadius="20">
             </Border>
         </Viewbox>
 
@@ -151,9 +152,9 @@
                    Margin="0,0,0,20">
                     <TextBlock.Foreground>
                         <LinearGradientBrush>
-                            <GradientStop Color="#f64f59" Offset="0"/>
-                            <GradientStop Color="#8E54E9" Offset="0.5"/>
-                            <GradientStop Color="#99fffd" Offset="1"/>
+                    <GradientStop Color="#f64f59" Offset="0"/>
+                    <GradientStop Color="#8E54E9" Offset="0.5"/>
+                    <GradientStop Color="#99fffd" Offset="1"/>
                         </LinearGradientBrush>
                     </TextBlock.Foreground>
                 </TextBlock>

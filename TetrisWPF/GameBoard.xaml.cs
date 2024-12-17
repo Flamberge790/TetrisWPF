@@ -64,22 +64,6 @@ namespace TetrisWPF
             GameOverPanel.Visibility = Visibility.Visible;
         }
 
-        private void GameTimer_Tick(object? sender, EventArgs e)
-        {
-            if (!TetrisModel.gameEnded)
-            {
-                TetrisModel.Tick(sender, e);
-                Redraw();
-            }
-            else
-            {
-                TetrisModel.timer.Stop();
-                TetrisModel.SaveScore();
-                FinalScoreText.Text = $"SCORE: {TetrisModel.score}";
-                GameOverPanel.Visibility = Visibility.Visible;
-            }
-        }
-
         public void Redraw()
         {
             GameCanvas.Children.Clear();
@@ -91,7 +75,7 @@ namespace TetrisWPF
                     int value = TetrisModel.well[y, x];
                     if (value > 0)
                     {
-                        DrawCell(x, y, TetrisModel.pieceColors[value - 1], Brushes.Black, 1);
+                        DrawCell(x, y, TetrisModel.pieceColors[value - 1], Brushes.Black, 1, 1);
                     }
                 }
             }
@@ -100,6 +84,24 @@ namespace TetrisWPF
             int rotation = TetrisModel.pieceRotate;
             int[,,] currentPiece = TetrisModel.pieces[pieceIndex];
             int dim = currentPiece.GetLength(1);
+            int shadowY = TetrisModel.CalculateShadowY();
+
+            for (int py = 0; py < dim; py++)
+            {
+                for (int px = 0; px < dim; px++)
+                {
+                    if (currentPiece[rotation, py, px] == 1)
+                    {
+                        int shadowX = TetrisModel.pieceX + px;
+                        int shadowBoardY = shadowY - py;
+
+                        if (shadowBoardY >= 0 && shadowBoardY < TetrisModel.wellHeight)
+                        {
+                            DrawCell(shadowX, shadowBoardY, Brushes.Black, Brushes.White, 1, 1);
+                        }
+                    }
+                }
+            }
 
             for (int py = 0; py < dim; py++)
             {
@@ -120,7 +122,7 @@ namespace TetrisWPF
 
                         if (boardY >= 0 && boardY < TetrisModel.wellHeight)
                         {
-                            DrawCell(boardX, boardY, TetrisModel.pieceColors[TetrisModel.pieceNo], Brushes.Black, 1);
+                            DrawCell(boardX, boardY, TetrisModel.pieceColors[TetrisModel.pieceNo], Brushes.Black, 1, 1);
                         }
                     }
                 }
@@ -137,10 +139,10 @@ namespace TetrisWPF
             TextBlock nextLabel = new TextBlock
             {
                 Text = "NEXT:",
-                FontSize = 20,
+                FontSize = 30,
                 FontFamily = new FontFamily("eurofighter"),
                 Foreground = Brushes.White,
-                Margin = new Thickness(20, 0, 0, 25)
+                Margin = new Thickness(0, -10, 0, 25)
             };
             NextPiecesPanel.Children.Add(nextLabel);
 
@@ -184,7 +186,7 @@ namespace TetrisWPF
             }
         }
 
-        private void DrawCell(int x, int y, Brush color, Brush stroke, double strokethickness)
+        private void DrawCell(int x, int y, Brush color, Brush stroke, double strokethickness, double opacity)
         {
             Rectangle rect = new Rectangle()
             {
@@ -192,6 +194,7 @@ namespace TetrisWPF
                 Height = CellSize - 0.5,
                 Fill = color,
                 Stroke = stroke,
+                Opacity = opacity,
                 StrokeThickness = strokethickness
             };
             Canvas.SetLeft(rect, x * CellSize);
