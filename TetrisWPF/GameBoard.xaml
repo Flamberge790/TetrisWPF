@@ -8,8 +8,7 @@
       d:DesignHeight="700" d:DesignWidth="800"
       MaxHeight="700" MaxWidth="800"
       Title="GameBoard"
-      KeyDown="Page_KeyDown"
-      Focusable="True">
+      KeyDown="Page_KeyDown">
 
     <Grid>
         <!--
@@ -38,7 +37,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Margin="60,0,0,0"
-                Focusable="False"
+
                 ClipToBounds="True"
                 Loaded="GameBoard_Loaded"
                 Visibility="Hidden">
@@ -73,16 +72,6 @@
                     Margin="15,15,15,15"
                     />
         </Viewbox>
-
-
-
-
-
-        <!-- next piece -->
-
-
-        <!-- score -->
-
 
         <!-- game over (do zmienienia, zrobi sie ladny i zaladuje) -->
         <Border x:Name="GameOverPanel"

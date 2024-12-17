@@ -88,7 +88,7 @@ namespace TetrisWPF
             }
         };
 
-        private static void DropPiece()
+        public static void DropPiece()
         {
             var y = 0;
             while (!CollisionDetected(pieceRotate, pieceX, pieceY - y))
@@ -100,7 +100,7 @@ namespace TetrisWPF
             FreezePiece();
         }
 
-        private static void FreezePiece()
+        public static void FreezePiece()
         {
             var currentPiece = pieces[pieceNo];
             var dim = currentPiece.GetLength(1);
@@ -146,6 +146,9 @@ namespace TetrisWPF
             lock (syncObject)
             {
                 if (gameEnded) return;
+
+                keyPressedRecently = false;
+
                 switch (key)
                 {
                     case Key.Left:
@@ -203,7 +206,11 @@ namespace TetrisWPF
                         // koniec gierki
                         gameEnded = true;
                         break;
+                    default:
+                        return;
                 }
+                OnRedrawRequested?.Invoke();
+                keyPressedRecently = true;
             }
         }
 
@@ -284,7 +291,6 @@ namespace TetrisWPF
             if (!keyPressedRecently)
             {
                 HandleKey(Key.Down);
-                keyPressedRecently = true;
             }
 
             keyPressedRecently = false;

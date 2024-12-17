@@ -30,7 +30,16 @@ namespace TetrisWPF
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            if (TetrisModel.gameEnded) return;
 
+            // Access the EnterNamePanel and Redraw() method from the GameBoard page
+            var gameBoard = MainFrame.Content as GameBoard;
+            if (gameBoard != null)
+            {
+                if (gameBoard.EnterNamePanel.Visibility == Visibility.Visible) return;
+                TetrisModel.HandleKey(e.Key);
+                gameBoard.Redraw();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

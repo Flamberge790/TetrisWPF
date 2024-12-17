@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TetrisWPF"
         mc:Ignorable="d"
-        Title="Background" Height="700" Width="800">
+        Title="Tetris" Height="700" Width="800"
+        KeyDown="Window_KeyDown">
 
     <Window.Background>
         <ImageBrush ImageSource="Assets/space_background.png" Opacity="1"/>
@@ -20,7 +21,7 @@
             
             <Polygon>
                 <Polygon.Fill>
-                    <LinearGradientBrush StartPoint="0, 0" EndPoint="1,1" Opacity="0.175">
+                    <LinearGradientBrush StartPoint="0, 0" EndPoint="1,1" Opacity="0.15">
                         <GradientStop Color="#f64f59" Offset="0"/>
                         <GradientStop Color="#8E54E9" Offset="0.5"/>
                         <GradientStop Color="#99fffd" Offset="1"/>

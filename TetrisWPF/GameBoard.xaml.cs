@@ -80,7 +80,7 @@ namespace TetrisWPF
             }
         }
 
-        private void Redraw()
+        public void Redraw()
         {
             GameCanvas.Children.Clear();
 
@@ -199,10 +199,12 @@ namespace TetrisWPF
 
         private void Page_KeyDown(object sender, KeyEventArgs e)
         {
-            if (TetrisModel.gameEnded || EnterNamePanel.Visibility == Visibility.Visible) return;
+            //if (TetrisModel.gameEnded || EnterNamePanel.Visibility == Visibility.Visible) return;
 
-            TetrisModel.HandleKey(e.Key);
-            Redraw();
+            //MessageBox.Show($"key pressed: {e.Key}", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            //TetrisModel.HandleKey(e.Key);
+            //Redraw();
         }
 
         private void RestartButton_Click(object sender, RoutedEventArgs e)
